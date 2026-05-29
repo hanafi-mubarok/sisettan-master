@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     * Add sample data to kelurahans table
+     *
+     * @return void
+     */
+    public function up()
+    {
+        $data = [
+            ['id' => 1, 'kelurahan' => 'Cabang 1', 'id_kecamatan' => null],
+            ['id' => 2, 'kelurahan' => 'Cabang 2', 'id_kecamatan' => null],
+            ['id' => 3, 'kelurahan' => 'Cabang 3', 'id_kecamatan' => null],
+        ];
+        
+        DB::table('kelurahans')->insertOrIgnore($data);
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        DB::table('kelurahans')->whereIn('id', [1, 2, 3])->delete();
+    }
+};

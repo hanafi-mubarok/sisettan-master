@@ -1,0 +1,435 @@
+html, body, * {
+    box-sizing: border-box;
+}
+
+/* Slightly smaller base font so UI looks less bulky */
+html {
+    font-size: 14px; /* was likely 16px by browser default */
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: radial-gradient(circle at top right, #f6f8fb 0%, #edf2f8 45%, #e9eef7 100%);
+    color: #1a2743;
+}
+
+.midi-wrapper {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    overflow: hidden;
+    box-shadow: none;
+    background: #f6f8fc;
+}
+
+/* Prevent accidental horizontal scroll from 100vw usage */
+body {
+    overflow-x: hidden;
+}
+
+.midi-shell {
+    display: grid;
+    grid-template-columns: clamp(260px, 22vw, 340px) minmax(0, 1fr);
+    min-height: 100vh;
+}
+
+.midi-sidebar {
+    background: #ffffff;
+    color: #20304f;
+    border-right: 1px solid #e3e9f3;
+}
+
+.midi-brand {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 24px 20px 16px;
+    border-bottom: 1px solid #e7edf6;
+}
+
+.midi-brand img {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    background: #f7f9fc;
+    border-radius: 8px;
+    padding: 6px;
+    border: 1px solid #e3e9f3;
+}
+
+.midi-brand h5 {
+    margin: 0;
+    font-size: clamp(1.35rem, 1.9vw, 2.35rem);
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    color: #11213f;
+}
+
+.midi-brand p {
+    margin: 2px 0 0;
+    font-size: clamp(0.72rem, 0.85vw, 0.95rem);
+    letter-spacing: 1.5px;
+    opacity: 0.75;
+    color: #516078;
+}
+
+.midi-side-nav {
+    padding: 18px 12px;
+    display: grid;
+    gap: 6px;
+}
+
+.midi-side-nav a {
+    color: #33455f;
+    text-decoration: none;
+    padding: 11px 14px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: clamp(1rem, 1.35vw, 1.9rem);
+    font-weight: 500;
+}
+
+.midi-side-nav a.active,
+.midi-side-nav a:hover {
+    background: #eef3fb;
+    color: #102d63;
+}
+
+.midi-main {
+    display: flex;
+    flex-direction: column;
+}
+
+.midi-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
+    min-height: 64px;
+    background: #0f2c61;
+}
+
+.midi-topbar-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    align-items: center;
+}
+
+.midi-topbar-links a {
+    color: #dce8ff;
+    text-decoration: none;
+    font-size: clamp(1rem, 1.35vw, 1.8rem);
+    border-bottom: 2px solid transparent;
+    padding: 18px 1px 14px;
+}
+
+.midi-topbar-links a.active,
+.midi-topbar-links a:hover {
+    color: #fff;
+    border-bottom-color: #f5cb6a;
+}
+
+.midi-logout-btn {
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    background: transparent;
+    color: #fff;
+    border-radius: 999px;
+    padding: 8px 18px;
+    font-weight: 600;
+    font-size: clamp(1rem, 1.3vw, 1.7rem);
+}
+
+.midi-content {
+    padding: 28px 28px;
+    flex: 1;
+}
+
+.midi-content h1 {
+    margin-bottom: 16px;
+    font-size: clamp(2rem, 3vw, 3.5rem);
+    line-height: 1;
+    color: #142440;
+    letter-spacing: -0.4px;
+    font-weight: 700;
+}
+
+.midi-stat-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(180px, 0.8fr);
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.midi-stat-card {
+    background: #fff;
+    border: 1px solid #dbe2f0;
+    border-radius: 10px;
+    padding: 26px 26px;
+    box-shadow: none;
+}
+
+.midi-stat-card span {
+    display: block;
+    color: #3f4f6c;
+    font-size: clamp(1rem, 1.45vw, 2.2rem);
+}
+
+.midi-stat-card strong {
+    display: block;
+    margin-top: 8px;
+    color: #111f3d;
+    font-size: clamp(1.5rem, 2vw, 3rem);
+    font-weight: 700;
+    line-height: 1;
+}
+
+.midi-stat-card .status {
+    color: #0c6648;
+}
+
+.midi-card-box {
+    background: #fff;
+    border: 1px solid rgba(219, 226, 240, 0.75);
+    border-radius: 12px;
+    padding: 28px;
+    height: 100%;
+}
+
+.midi-card-title {
+    margin: 0 0 14px;
+    color: #17284b;
+    font-size: clamp(1.8rem, 2.4vw, 2.8rem);
+    line-height: 1;
+    font-weight: 700;
+}
+
+.midi-main-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 2.25fr) minmax(220px, 0.75fr);
+    gap: 12px;
+}
+
+.midi-main-grid .midi-main-left,
+.midi-main-grid .midi-main-right {
+    min-width: 0;
+}
+
+.midi-lelang-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    align-items: stretch;
+}
+
+.midi-item {
+    border: 1px solid rgba(219, 226, 240, 0.75);
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.midi-item-media {
+    position: relative;
+}
+
+.midi-item img {
+    width: 100%;
+    height: clamp(120px, 14vw, 170px);
+    object-fit: cover;
+    display: block;
+    background: #f1f3f8;
+    flex-shrink: 0;
+}
+
+.midi-countdown-chip {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    color: #fff;
+    background: rgba(17, 39, 79, 0.86);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 6px 16px rgba(6, 24, 56, 0.35);
+    font-size: clamp(0.78rem, 0.95vw, 1.2rem);
+    font-weight: 600;
+    backdrop-filter: blur(2px);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+}
+
+.midi-item:hover .midi-countdown-chip {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(6, 24, 56, 0.42);
+}
+
+.midi-countdown-chip.is-ended {
+    background: rgba(120, 38, 38, 0.9);
+}
+
+.midi-countdown-chip i {
+    font-size: 0.9em;
+}
+
+.midi-item-body {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.midi-item-body h4 {
+    margin: 0;
+    font-size: clamp(1.1rem, 1.45vw, 2.2rem);
+    line-height: 1.15;
+    color: #162744;
+    font-weight: 700;
+}
+
+.midi-item-body p {
+    margin: 4px 0 0;
+    color: #475773;
+    font-size: clamp(0.95rem, 1.25vw, 2rem);
+    line-height: 1.2;
+}
+
+.midi-item-body .harga {
+    font-size: clamp(1.15rem, 1.8vw, 2.5rem);
+    color: #131f38;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.midi-item-body .midi-btn {
+    margin-top: auto;
+}
+
+.midi-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    width: 100%;
+    min-height: 44px;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    background: #102d63;
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: clamp(1rem, 1.3vw, 1.95rem);
+    font-weight: 600;
+}
+
+.midi-btn:hover {
+    color: #fff;
+    text-decoration: none;
+    background: #0c2250;
+}
+
+.midi-btn.midi-btn-closed {
+    background: #8d96a6;
+}
+
+.midi-btn.midi-btn-closed:hover {
+    background: #7f8898;
+}
+
+.midi-notif-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 14px;
+}
+
+.midi-notif-list li {
+    color: #142440;
+    font-size: clamp(1rem, 1.5vw, 2.2rem);
+    line-height: 1.25;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.midi-empty {
+    border: 1px dashed #b7c4da;
+    border-radius: 10px;
+    padding: 24px;
+    color: #4c5d7d;
+    text-align: center;
+    grid-column: 1 / -1;
+    font-size: clamp(1rem, 1.3vw, 1.8rem);
+}
+
+.midi-footer {
+    border-top: 1px solid rgba(221, 227, 239, 0.75);
+    background: #fff;
+    padding: 14px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    color: #253452;
+    font-size: clamp(0.95rem, 1.2vw, 1.8rem);
+    flex-wrap: wrap;
+}
+
+@media (max-width: 992px) {
+    .midi-wrapper {
+        width: 100vw;
+        margin: 0;
+    }
+
+    .midi-shell {
+        grid-template-columns: 1fr;
+    }
+
+    .midi-side-nav {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .midi-content {
+        padding: 16px;
+    }
+
+    .midi-topbar {
+        padding: 0 16px;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        min-height: 72px;
+    }
+
+    .midi-topbar-links {
+        justify-content: center;
+    }
+
+    .midi-stat-grid,
+    .midi-lelang-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .midi-main-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (min-width: 993px) and (max-width: 1280px) {
+    .midi-lelang-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}

@@ -1,0 +1,128 @@
+/**
+ *
+ * You can write your CSS code here, DO NOT touch the default JavaScript file
+ * because it will make it harder for you to update.
+ * 
+ */
+
+.dashboard-fluid .pricing {
+	height: 100%;
+}
+
+.dashboard-page .section {
+	margin-bottom: 0;
+}
+
+.dashboard-top-grid {
+	display: grid;
+	grid-template-columns: minmax(0, 2fr) minmax(320px, 1fr);
+	gap: 1rem;
+	/* make both columns equal height so filter matches stats */
+	align-items: stretch;
+}
+
+.dashboard-top-grid > [class*="col-"] {
+	width: 100%;
+	max-width: none;
+	flex: 0 0 auto;
+	padding-right: 0;
+	padding-left: 0;
+}
+
+.dashboard-stats-row {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 0.75rem;
+}
+
+.dashboard-stats-row > [class*="col-"] {
+	width: 100%;
+	max-width: none;
+	flex: 0 0 auto;
+	padding-right: 0;
+	padding-left: 0;
+}
+
+.midi-filter-body {
+	font-size: 15px;
+	min-height: auto;
+}
+
+.dashboard-filter-fields {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.75rem;
+	align-items: start;
+}
+
+.dashboard-top-filter {
+	align-self: start;
+}
+
+.dashboard-top-filter .pricing {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.dashboard-top-filter .pricing .midi-filter-body {
+	flex: 1 1 auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 1.25rem 1.5rem;
+}
+
+.dashboard-top-stats {
+	align-self: start;
+}
+
+.midi-filter-title {
+	font-size: clamp(1.75rem, 2.3vw, 2.3rem);
+	line-height: 1.2;
+}
+
+.auction-grid {
+	margin-bottom: 0;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+	gap: 1rem;
+}
+
+.auction-item {
+	min-width: 0;
+}
+
+.auction-card {
+	transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.auction-card:hover {
+	transform: translateY(-3px);
+	box-shadow: 0 10px 20px rgba(15, 44, 97, 0.12) !important;
+}
+
+.auction-image {
+	height: clamp(160px, 19vw, 220px);
+	object-fit: cover;
+}
+
+@media (max-width: 1200px) {
+	.dashboard-top-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.dashboard-stats-row {
+		grid-template-columns: 1fr;
+	}
+
+	.dashboard-filter-fields {
+		grid-template-columns: 1fr;
+	}
+
+	.midi-filter-body {
+		min-height: auto;
+	}
+}
+
+/*# sourceMappingURL=custom.css.map */

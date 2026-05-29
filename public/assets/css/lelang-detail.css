@@ -1,0 +1,572 @@
+:root {
+    --detail-blue: #0b63b6;
+    --detail-blue-dark: #084a8b;
+    --detail-text: #1d2b44;
+    --detail-muted: #66758d;
+    --detail-border: #e3eaf5;
+    --detail-bg: #f4f7fb;
+}
+
+body.lelang-detail-page {
+    margin: 0;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(180deg, #f7f9fc 0%, #eef3f9 100%);
+    color: var(--detail-text);
+}
+
+.lelang-detail-content {
+    padding: 18px 24px 20px;
+}
+
+.lelang-detail-wrap {
+    max-width: 1480px;
+    margin: 0;
+    padding: 6px 0 20px;
+}
+
+.lelang-detail-breadcrumb {
+    font-size: 12px;
+    color: var(--detail-muted);
+    margin-bottom: 14px;
+}
+
+.lelang-detail-breadcrumb a {
+    color: var(--detail-blue);
+    text-decoration: none;
+}
+
+.lelang-detail-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.85fr);
+    gap: 22px;
+    align-items: start;
+}
+
+.lelang-gallery,
+.lelang-info,
+.lelang-panel {
+    background: #fff;
+    border: 1px solid var(--detail-border);
+    border-radius: 18px;
+    box-shadow: 0 12px 30px rgba(16, 42, 85, 0.06);
+}
+
+.lelang-gallery {
+    overflow: hidden;
+}
+
+.penawaran-detail-panel {
+    margin-top: 16px;
+    padding: 14px 16px;
+}
+
+.penawaran-detail-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0 0 10px;
+    color: #24324c;
+}
+
+.penawaran-detail-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.penawaran-detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 540px;
+}
+
+.penawaran-detail-table th,
+.penawaran-detail-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #e6edf7;
+    font-size: 13px;
+    color: #2b3a54;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.penawaran-detail-table th {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.25px;
+    color: #647792;
+    background: #f8fbff;
+}
+
+.penawaran-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 70px;
+    padding: 4px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.penawaran-status.is-ditinjau {
+    color: #0f5ba8;
+    background: #e8f1ff;
+}
+
+.penawaran-status.is-gugur {
+    color: #9f3131;
+    background: #fdeaea;
+}
+
+.penawaran-status.is-pemenang {
+    color: #146c2e;
+    background: #e9f8ee;
+}
+
+.penawaran-empty {
+    text-align: center;
+    color: #6d7d92;
+}
+
+.lelang-gallery-main {
+    position: relative;
+    background: #dce6f2;
+}
+
+.lelang-gallery-main img {
+    width: 100%;
+    height: min(72vh, 760px);
+    object-fit: cover;
+    display: block;
+}
+
+.lelang-info {
+    padding: 20px 22px 22px;
+}
+
+.lelang-label {
+    color: var(--detail-blue);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+
+.lelang-title {
+    font-size: clamp(1.45rem, 2.2vw, 2.15rem);
+    line-height: 1.2;
+    font-weight: 700;
+    margin: 0 0 18px;
+    color: #24324c;
+}
+
+.lelang-countdown-box {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    border: 1px solid #d6e4f8;
+    background: linear-gradient(180deg, #f8fbff 0%, #eef5ff 100%);
+    border-radius: 16px;
+    padding: 14px 16px;
+    margin-top: 18px;
+    margin-bottom: 22px;
+}
+
+.lelang-countdown-box.expired {
+    border-color: #f0c1c1;
+    background: linear-gradient(180deg, #fff8f8 0%, #ffecec 100%);
+}
+
+.countdown-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    color: var(--detail-blue);
+    font-size: 20px;
+    box-shadow: 0 8px 16px rgba(11, 99, 182, 0.12);
+    flex-shrink: 0;
+}
+
+.countdown-copy .caption {
+    font-size: 11px;
+    color: var(--detail-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.35px;
+}
+
+.countdown-copy .value {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--detail-blue);
+    line-height: 1.1;
+    margin-top: 2px;
+}
+
+.lelang-price-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 18px;
+}
+
+.lelang-price-box {
+    background: linear-gradient(180deg, #f8fbff 0%, #eef5ff 100%);
+    border: 1px solid #d6e4f8;
+    border-radius: 14px;
+    padding: 14px 16px;
+}
+
+.lelang-price-box .caption {
+    font-size: 12px;
+    color: var(--detail-muted);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.lelang-price-box .value {
+    color: var(--detail-blue);
+    font-size: clamp(1.05rem, 1.5vw, 1.55rem);
+    font-weight: 700;
+    line-height: 1.15;
+}
+
+.lelang-meta-grid {
+    margin-top: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 18px;
+}
+
+.lelang-meta-item .caption {
+    font-size: 11px;
+    color: var(--detail-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.35px;
+}
+
+.lelang-meta-item .value {
+    font-size: 14px;
+    margin-top: 4px;
+    line-height: 1.4;
+    color: var(--detail-text);
+}
+
+.lelang-cta {
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+    min-height: 48px;
+    padding: 0 22px;
+    background: linear-gradient(180deg, var(--detail-blue) 0%, var(--detail-blue-dark) 100%);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    box-shadow: 0 10px 20px rgba(11, 99, 182, 0.18);
+}
+
+.lelang-cta:hover {
+    color: #fff;
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+.lelang-cta.is-winner {
+    background: linear-gradient(180deg, #1fa855 0%, #138f46 100%);
+    box-shadow: 0 10px 20px rgba(20, 128, 62, 0.2);
+    white-space: normal;
+    text-align: center;
+    line-height: 1.25;
+    padding: 10px 14px;
+}
+
+.lelang-cta.is-winner:hover {
+    background: linear-gradient(180deg, #25b55d 0%, #159a4c 100%);
+}
+
+.lelang-cta.is-disabled,
+.lelang-cta:disabled {
+    background: linear-gradient(180deg, #7a8ba0 0%, #6a7d94 100%);
+    box-shadow: none;
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.95;
+}
+
+.penawaran-form-wrap {
+    margin-top: 14px;
+    border: 1px solid var(--detail-border);
+    border-radius: 12px;
+    background: #fbfdff;
+    padding: 14px;
+}
+
+.penawaran-form-grid {
+    display: grid;
+    grid-template-columns: 210px minmax(0, 1fr);
+    gap: 16px;
+    align-items: start;
+}
+
+.penawaran-field-block {
+    display: grid;
+    gap: 8px;
+}
+
+.penawaran-label {
+    display: block;
+    margin: 0;
+    color: #263652;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.penawaran-number-row {
+    display: grid;
+    gap: 10px;
+    width: 210px;
+    max-width: 210px;
+}
+
+.penawaran-note-row {
+    display: grid;
+    gap: 8px;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.penawaran-note-hint {
+    margin: 0;
+    font-size: 12px;
+    color: var(--detail-muted);
+}
+
+.penawaran-number-group {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 36px;
+    border: 1px solid #cfdced;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.penawaran-number-input {
+    width: 100%;
+    min-height: 44px;
+    border: 0;
+    padding: 10px 10px;
+    font-size: 15px;
+    color: #1e2d49;
+    font-weight: 600;
+    background: #fff;
+}
+
+.penawaran-number-input:focus {
+    outline: none;
+}
+
+.penawaran-note-input {
+    width: 100%;
+    max-width: 100%;
+    min-height: 42px;
+    border: 1px solid #cfdced;
+    border-radius: 10px;
+    padding: 8px 10px;
+    font-size: 14px;
+    color: #1e2d49;
+    font-weight: 600;
+    background: #fff;
+    box-sizing: border-box;
+}
+
+.penawaran-note-input:focus {
+    outline: none;
+    border-color: #7bb1ea;
+    box-shadow: 0 0 0 3px rgba(11, 99, 182, 0.14);
+}
+
+.penawaran-number-group:focus-within {
+    border-color: #7bb1ea;
+    box-shadow: 0 0 0 3px rgba(11, 99, 182, 0.14);
+}
+
+.penawaran-spin-buttons {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    border-left: 1px solid #d6e2f0;
+    width: 36px;
+}
+
+.spin-btn {
+    border: 0;
+    background: #f7faff;
+    color: #395377;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+}
+
+.spin-btn:first-child {
+    border-bottom: 1px solid #d6e2f0;
+}
+
+.spin-btn:hover {
+    background: #eaf2ff;
+}
+
+.penawaran-input {
+    width: 100%;
+    min-height: 44px;
+    border: 1px solid #cfdced;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 15px;
+    color: #1e2d49;
+    font-weight: 600;
+    background: #fff;
+}
+
+.penawaran-input:focus {
+    outline: none;
+    border-color: #7bb1ea;
+    box-shadow: 0 0 0 3px rgba(11, 99, 182, 0.14);
+}
+
+.penawaran-hint {
+    display: block;
+    margin-top: 8px;
+    color: #2f6b27;
+    font-size: 12px;
+    min-height: 18px;
+}
+
+.penawaran-hint.is-error {
+    color: #b03d3d;
+}
+
+.penawaran-actions {
+    margin-top: 14px;
+}
+
+.btn-lanjut-penawaran {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 40px;
+    padding: 0 14px;
+    border-radius: 8px;
+    background: #0e6cc7;
+    color: #fff;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.btn-lanjut-penawaran:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+.btn-lanjut-penawaran.is-disabled {
+    pointer-events: none;
+    opacity: 0.45;
+}
+
+.lelang-info-list {
+    border-top: 1px solid var(--detail-border);
+    padding-top: 14px;
+    display: grid;
+    gap: 10px;
+}
+
+.lelang-info-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 14px;
+    line-height: 1.45;
+}
+
+.lelang-info-row span {
+    color: var(--detail-muted);
+    min-width: 110px;
+}
+
+.lelang-info-row strong {
+    color: var(--detail-text);
+    text-align: right;
+}
+
+@media (max-width: 1199px) {
+    .lelang-detail-shell {
+        grid-template-columns: 1fr;
+    }
+
+    .lelang-gallery-main img {
+        height: min(58vh, 600px);
+    }
+}
+
+@media (max-width: 767px) {
+    .lelang-detail-wrap {
+        padding: 4px 0 12px;
+    }
+
+    .lelang-detail-content {
+        padding: 12px;
+    }
+
+    .lelang-price-grid,
+    .lelang-meta-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .lelang-info,
+    .lelang-panel {
+        padding: 16px;
+    }
+
+    .lelang-title {
+        font-size: 1.35rem;
+    }
+
+    .lelang-countdown-box {
+        align-items: flex-start;
+    }
+
+    .lelang-info-row {
+        flex-direction: column;
+    }
+
+    .lelang-info-row strong {
+        text-align: left;
+    }
+
+    .penawaran-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .penawaran-number-row {
+        max-width: 100%;
+    }
+
+    .penawaran-note-row {
+        max-width: 100%;
+    }
+
+    .penawaran-number-group {
+        grid-template-columns: minmax(0, 1fr) 42px;
+    }
+}

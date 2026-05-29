@@ -1,0 +1,527 @@
+@extends('layouts.app')
+@section('content')
+    <section class="section">
+        <div class="section-header">
+            <h1>Table</h1>
+        </div>
+        <div class="section-body">
+            <h2 class="section-title">STS Pemenang</h2>
+            <a class="btn btn-info btn-primary active bg-primary" onclick="showPage(1)">(STS) Pemenang 1</a>
+            <a class="btn btn-info btn-primary active bg-primary" onclick="showPage(2)">(STS) Pemenang 2</a>
+            <div id="page1">
+                <br><br>
+                <div class="card">
+                    <div class="card-body">
+                        {{-- <form method="POST"> --}}
+                        {{-- @csrf --}}
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-md">
+                                <tbody>
+                                    <tr style="text-align: center">
+                                        <th>No Urut</th>
+                                        <th>Nama</th>
+                                        <th>Bukti Hak</th>
+                                        <th>Kategori</th>
+                                        <th>Kelipatan</th>
+                                        <th>Penawaran</th>
+                                        <th style="width: 250px">Tanggal Perjanjian</th>
+                                        <th>Menu</th>
+                                    </tr>
+                                    @foreach ($penawaran as $key => $listPenawaran)
+                                        <tr>
+                                            <td>{{ $listPenawaran->no_urut }}</td>
+                                            {{-- <td>{{ $listPenawaran->id }}</td> --}}
+                                            <td>{{ $listPenawaran->nama }}</td>
+                                            <td>{{ $listPenawaran->lokasi }}</td>
+                                            <td>{{ $listPenawaran->kategori }}</td>
+                                            <td>{{ number_format($listPenawaran->kelipatan, 0, ',', '.') }}m<sup>2</sup></td>
+                                            <td>Rp {{ number_format($listPenawaran->nilai_penawaran, 0, ',', '.') }}
+                                            </td>
+                                            <td>
+                                                <form class="updateDateForm" data-id="{{ $listPenawaran->id }}">
+                                                    <input type="date" class="tgl_perjanjian_input" name="tgl_perjanjian"
+                                                        value="{{ $listPenawaran->tgl_perjanjian }}">
+                                                    <button type="submit"
+                                                        class="ml-2 btn btn-sm btn-success btn-icon">Save</button>
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-sm btn-info btn-icon toggle-details ml-3"
+                                                    data-target="#details-{{ $listPenawaran->id }}">
+                                                    <i class="fas fa-chevron-down"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr id="details-{{ $listPenawaran->id }}" style="display: none">
+                                            <td colspan="10">
+                                                <br>
+                                                <h6>Aksi</h6>
+                                                <table class="table table-bordered table-md">
+                                                    {{-- <tr style="text-align: center">
+                                                        <th>Hapus Data</th>
+                                                        <th>Digugurkan</th>
+                                                        <th>Cetak STS</th>
+                                                        <th>Cetak Pertanyataan</th>
+                                                        <th>Cetak Perjanjian</th>
+                                                        <th>Upload Dokumen</th>
+                                                    </tr> --}}
+                                                    <tr style="text-align: center;">
+                                                        <td>
+                                                            <form
+                                                                action="{{ route('penawaran.destroy', $listPenawaran->id) }}"
+                                                                method="POST" class="ml-2">
+                                                                <input type="hidden" name="_method" value="DELETE">
+                                                                <input type="hidden" name="_token"
+                                                                    value="{{ csrf_token() }}">
+                                                                <button
+                                                                    class="btn btn-sm btn-danger btn-icon confirm-delete"
+                                                                    type="submit">
+                                                                    <i class="fas fa-times"></i> Delete </button>
+                                                            </form>
+                                                        </td>
+                                                        <td>
+                                                            <a href="#" data-id="{{ $listPenawaran->id }}"
+                                                                class="ml-2 btn btn-sm btn-danger btn-icon gugur">Di
+                                                                Gugurkan</a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{ route('sts.print', $listPenawaran->id) }}"
+                                                                target="_blank"
+                                                                class="ml-2 btn btn-sm btn-info btn-icon">Cetak
+                                                                STS</a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{ route('sts.cetakpernyataan', $listPenawaran->id) }}"
+                                                                class="ml-2 btn btn-sm btn-info btn-icon ">Cetak
+                                                                Pernyataan</a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{ route('sts.cetakperjanjian', $listPenawaran->id) }}"
+                                                                class="ml-2 btn btn-sm btn-info btn-icon ">Cetak
+                                                                Perjanjian</a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="#" data-toggle="dropdown"
+                                                                class="ml-2 btn btn-sm btn-info btn-icon">Upload STS</a>
+                                                            <div
+                                                                class="dropdown-menu
+                                                                dropdown-menu-right">
+                                                                <a class="dropdown-item has-icon" href="#"
+                                                                    data-toggle="modal" data-target="#modal-upload"
+                                                                    data-id="{{ $listPenawaran->id }}">
+                                                                    Dokumen
+                                                                </a>
+                                                            </div>
+                                                        </td>
+
+                                                    </tr>
+                                                </table>
+                                                <br />
+                                                <h6>Preview Upload Dokumen STS</h6>
+                                                <table class="table table-bordered table-md">
+                                                    <tr>
+                                                        <th>Surat Tanda Setor</th>
+                                                        <th>Surat Pernyataan</th>
+                                                        <th>Surat Perjanjian</th>
+                                                        <th>Berita Acara</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            @if ($listPenawaran->surat_tanda_setor)
+                                                                <?php $listPenawaran->suratUrl = Storage::url('sts/' . $listPenawaran->surat_tanda_setor); ?>
+                                                                <button type="button" class="btn btn-primary preview-btn"
+                                                                    data-key="{{ $key }}"
+                                                                    data-penawaran="{{ json_encode($listPenawaran, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) }}">
+                                                                    Preview File
+                                                                </button>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            @if ($listPenawaran->surat_pernyataan)
+                                                                <?php $listPenawaran->suratUrl = Storage::url('sts/' . $listPenawaran->surat_pernyataan); ?>
+                                                                <button type="button" class="btn btn-primary preview-btn-2"
+                                                                    data-key="{{ $key }}"
+                                                                    data-penawaran="{{ json_encode($listPenawaran, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) }}">
+                                                                    Preview File
+                                                                </button>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            @if ($listPenawaran->surat_perjanjian)
+                                                                <?php $listPenawaran->suratUrl = Storage::url('sts/' . $listPenawaran->surat_perjanjian); ?>
+                                                                <button type="button" class="btn btn-primary preview-btn-3"
+                                                                    data-key="{{ $key }}"
+                                                                    data-penawaran="{{ json_encode($listPenawaran, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) }}">
+                                                                    Preview File
+                                                                </button>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            @if ($listPenawaran->berita_acara)
+                                                                <?php $listPenawaran->suratUrl = Storage::url('sts/' . $listPenawaran->berita_acara); ?>
+                                                                <button type="button" class="btn btn-primary preview-btn-4"
+                                                                    data-key="{{ $key }}"
+                                                                    data-penawaran="{{ json_encode($listPenawaran, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) }}">
+                                                                    Preview File
+                                                                </button>
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer text-right">
+                        <a class="btn btn-primary" href="{{ route('penawaran.index') }}">Selesai</a>
+                    </div>
+                    {{-- </form> --}}
+                </div>
+            </div>
+        </div>
+        <div id="page2" style="display: none">
+            <br><br>
+            <div class="card">
+                <div class="card-body">
+                    <form method="POST">
+                        @csrf
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-md">
+                                <tbody>
+                                    <tr style="text-align: center">
+                                        <th>No Urut</th>
+                                        <th>Nama</th>
+                                        <th>Bukti Hak</th>
+                                        <th>Kategori</th>
+                                        <th>Kelipatan</th>
+                                        <th>Penawaran</th>
+                                        <th style="width: 250px">Tanggal Perjanjian</th>
+                                        <th style="width: 570px">Menu</th>
+                                    </tr>
+                                    @foreach ($penawaran2 as $key => $listPenawaran)
+                                        <tr>
+                                            <td>{{ $listPenawaran->no_urut }}</td>
+                                            <td>{{ $listPenawaran->nama }}</td>
+                                            <td>{{ $listPenawaran->lokasi }}</td>
+                                            <td>{{ $listPenawaran->kategori }}</td>
+                                            <td>{{ number_format($listPenawaran->kelipatan, 0, ',', '.') }}m<sup>2</sup>
+                                            </td>
+                                            <td>Rp {{ number_format($listPenawaran->nilai_penawaran, 0, ',', '.') }}
+                                            </td>
+                                            <td>
+                                                <form class="updateDateForm" data-id="{{ $listPenawaran->id }}">
+                                                    <input type="date" class="tgl_perjanjian_input" name="tgl_perjanjian"
+                                                        value="{{ $listPenawaran->tgl_perjanjian }}">
+                                                    <button type="submit"
+                                                        class="ml-2 btn btn-sm btn-success btn-icon">Save</button>
+                                                </form>
+                                            </td>
+
+                                            <td>
+                                                <div class="d-flex justify-content-end">
+                                                    <form action="{{ route('penawaran.destroy', $listPenawaran->id) }}"
+                                                        method="POST" class="ml-2">
+                                                        <input type="hidden" name="_method" value="DELETE">
+                                                        <input type="hidden" name="_token"
+                                                            value="{{ csrf_token() }}">
+                                                        <button class="btn btn-sm btn-danger btn-icon confirm-delete"
+                                                            type="submit">
+                                                            <i class="fas fa-times"></i> Delete </button>
+                                                    </form>
+                                                    <a href="#" data-id="{{ $listPenawaran->id }}"
+                                                        class="ml-2 btn btn-sm btn-danger btn-icon gugur">Di Gugurkan</a>
+                                                    <a href="{{ route('sts.print', $listPenawaran->id) }}"
+                                                        target="_blank" class="ml-2 btn btn-sm btn-info btn-icon">Cetak
+                                                        STS</a>
+                                                    <a href="#" class="ml-2 btn btn-sm btn-info btn-icon ">Cetak
+                                                        Pernyataan</a>
+                                                    <a href="#" class="ml-2 btn btn-sm btn-info btn-icon ">Cetak
+                                                        Perjanjian</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                </div>
+                <div class="card-footer text-right">
+                    <a class="btn btn-primary" href="{{ route('penawaran.index') }}">Selesai</a>
+                </div>
+                </form>
+            </div>
+        </div>
+        </div>
+    </section>
+    <div class="modal fade" id="previewFileModal" tabindex="-1" aria-labelledby="previewFileModalLabel"
+        aria-hidden="true" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Preview BA</h5>
+                </div>
+                <div class="modal-body">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">Success</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Upload successful.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @include('lelang.penawaran.modal.upload')
+    @include('lelang.penawaran.modal.preview')
+@endsection
+@push('customScript')
+    <script src="/assets/js/select2.min.js"></script>
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- iziToast -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script> --}}
+    <script>
+        $(document).ready(function() {
+            $('.gugur').on('click', function(e) {
+                e.preventDefault();
+
+                let penawaranId = $(this).data('id');
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/lelang/sts/' + penawaranId + '/gugur',
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                    },
+                    success: function(data) {
+                        alert(data.message);
+
+                        // Reload the entire page
+                        location.reload();
+                    },
+                    error: function(error) {
+                        alert('Error updating data.');
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('.updateDateForm').on('submit', function(e) {
+                e.preventDefault();
+                let penawaranId = $(this).data('id');
+                let tgl_perjanjian = $(this).find('.tgl_perjanjian_input').val();
+                console.log(tgl_perjanjian);
+
+                $.post('/lelang/sts/' + penawaranId + '/update-date', {
+                        "_token": "{{ csrf_token() }}",
+                        "tgl_perjanjian": tgl_perjanjian
+                    })
+                    .done(function(data) {
+                        alert(data.message);
+                        location.reload();
+                    })
+                    .fail(function(error) {
+                        console.error(error);
+                        alert('Error updating date.');
+                    });
+            });
+        });
+    </script>
+    <script>
+        function showPage(pageNumber) {
+            for (let i = 1; i <= 2; i++) {
+                const page = document.getElementById('page' + i);
+                if (page) {
+                    page.style.display = 'none';
+                }
+            }
+
+            const currentPage = document.getElementById('page' + pageNumber);
+            if (currentPage) {
+                currentPage.style.display = 'block';
+            }
+        }
+    </script>
+    <script>
+        $('#modal-upload').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget);
+            var id = button.data('id');
+            $('#id_penawaran').val(id);
+        });
+
+        $(document).ready(function() {
+            $('#uploadForm').submit(function(e) {
+                e.preventDefault();
+                var formData = new FormData(this);
+                formData.append('id_penawaran', $('#id_penawaran').val());
+
+                Swal.fire({
+                    title: 'Apakah ingin upload file?',
+                    text: "Cek lagi file yang ingin diupload",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: $(this).attr('action'),
+                            type: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function(response) {
+                                console.log(response);
+                                $('#modal-upload').modal('hide');
+                                Swal.fire(
+                                    'Uploaded!',
+                                    'File Telah Diupload',
+                                    'success'
+                                );
+
+                                iziToast.success({
+                                    title: 'Success',
+                                    message: 'Upload successful. Halaman Akan Kerefesh Otomatis',
+                                    position: 'topRight'
+                                });
+
+                                setTimeout(function() {
+                                    window.location.reload();
+                                }, 3000);
+                            },
+                            error: function(xhr, status, error) {
+                                console.error(xhr.responseText);
+                                var errorMessage =
+                                    'Ada Error di Server, Silahkan Coba Lagi Nanti';
+
+                                // Extract error messages from the response
+                                if (xhr.responseJSON && xhr.responseJSON.errors) {
+                                    errorMessage = '<ul>';
+                                    $.each(xhr.responseJSON.errors, function(field,
+                                        errors) {
+                                        $.each(errors, function(index, error) {
+                                            errorMessage += '<li>' +
+                                                field + ': ' + error +
+                                                '</li>';
+                                        });
+                                    });
+                                    errorMessage += '</ul>';
+                                }
+
+                                Swal.fire({
+                                    title: 'Failed!',
+                                    html: errorMessage,
+                                    icon: 'error'
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+
+    <script>
+        var detailStatus = {};
+        $('.toggle-details').click(function() {
+            var targetId = $(this).data('target');
+            var listPenawaranId = targetId.split('-')[1];
+
+            for (var id in detailStatus) {
+                if (id != listPenawaranId && detailStatus[id] === true) {
+                    $('#details-' + id).toggle();
+                    $('.toggle-details[data-target="#details-' + id + '"] i')
+                        .toggleClass('fa-chevron-down fa-chevron-up');
+                    detailStatus[id] = false;
+                }
+            }
+
+            $(targetId).toggle();
+            $(this).find('i').toggleClass('fa-chevron-down fa-chevron-up');
+            detailStatus[listPenawaranId] = $(targetId).is(':visible');
+        });
+    </script>
+    <script>
+        $('.preview-btn').on('click', function() {
+            var key = $(this).data('key');
+            var listPenawaran = JSON.parse($(this).attr('data-penawaran'));
+            $('#previewFileModal .modal-title').text('Preview File STS');
+            if (listPenawaran.surat_tanda_setor.endsWith('.pdf')) {
+                $('#previewFileModal .modal-body').html('<iframe src="' + listPenawaran.suratUrl +
+                    '" width="100%" height="500px" frameborder="0"></iframe>');
+            } else {
+                $('#previewFileModal .modal-body').html('<img src="' + listPenawaran.suratUrl +
+                    '" alt="Surat" style="max-width: 100%; height: auto;">');
+            }
+            $('#previewFileModal').modal('show');
+        });
+        $('.preview-btn-2').on('click', function() {
+            var key = $(this).data('key');
+            var listPenawaran = JSON.parse($(this).attr('data-penawaran'));
+            $('#previewFileModal .modal-title').text('Preview File Pernyataan');
+            if (listPenawaran.surat_tanda_setor.endsWith('.pdf')) {
+                $('#previewFileModal .modal-body').html('<iframe src="' + listPenawaran.suratUrl +
+                    '" width="100%" height="500px" frameborder="0"></iframe>');
+            } else {
+                $('#previewFileModal .modal-body').html('<img src="' + listPenawaran.suratUrl +
+                    '" alt="Surat" style="max-width: 100%; height: auto;">');
+            }
+            $('#previewFileModal').modal('show');
+        });
+        $('.preview-btn-3').on('click', function() {
+            var key = $(this).data('key');
+            var listPenawaran = JSON.parse($(this).attr('data-penawaran'));
+            $('#previewFileModal .modal-title').text('Preview File Perjanjian');
+            if (listPenawaran.surat_tanda_setor.endsWith('.pdf')) {
+                $('#previewFileModal .modal-body').html('<iframe src="' + listPenawaran.suratUrl +
+                    '" width="100%" height="500px" frameborder="0"></iframe>');
+            } else {
+                $('#previewFileModal .modal-body').html('<img src="' + listPenawaran.suratUrl +
+                    '" alt="Surat" style="max-width: 100%; height: auto;">');
+            }
+            $('#previewFileModal').modal('show');
+        });
+        $('.preview-btn-4').on('click', function() {
+            var key = $(this).data('key');
+            var listPenawaran = JSON.parse($(this).attr('data-penawaran'));
+            $('#previewFileModal .modal-title').text('Preview File Berita Acara');
+            if (listPenawaran.surat_tanda_setor.endsWith('.pdf')) {
+                $('#previewFileModal .modal-body').html('<iframe src="' + listPenawaran.suratUrl +
+                    '" width="100%" height="500px" frameborder="0"></iframe>');
+            } else {
+                $('#previewFileModal .modal-body').html('<img src="' + listPenawaran.suratUrl +
+                    '" alt="Surat" style="max-width: 100%; height: auto;">');
+            }
+            $('#previewFileModal').modal('show');
+        });
+    </script>
+@endpush
+
+@push('customStyle')
+    <link rel="stylesheet" href="/assets/css/select2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" />
+@endpush
+
