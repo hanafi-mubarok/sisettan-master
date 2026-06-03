@@ -97,7 +97,7 @@ Route::group(['middleware' => ['auth', 'approved']], function () {
     Route::prefix('user-management')->group(function () {
         Route::patch('/user/{user}/restore', [UserController::class, 'restore'])->name('user.restore');
         Route::patch('/user/{user}/approve', [UserController::class, 'approve'])->name('user.approve');
-        Route::resource('user', UserController::class);
+        Route::resource('user', UserController::class)->except(['edit', 'update']);
         Route::post('import', [UserController::class, 'import'])->name('user.import');
         Route::get('export', [UserController::class, 'export'])->name('user.export');
         Route::get('template', [UserController::class, 'template'])->name('user.template');

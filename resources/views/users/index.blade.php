@@ -86,11 +86,9 @@
                                                         return asset($cleanPath);
                                                     }
 
-                                                    if (\Illuminate\Support\Str::startsWith($cleanPath, 'uploads/')) {
-                                                        return asset('storage/' . $cleanPath);
-                                                    }
-
-                                                    return asset($cleanPath);
+                                                    // Default untuk path yang dimulai dengan 'uploads/' atau path tanpa prefix
+                                                    // Asumsikan file disimpan di storage/app/public
+                                                    return asset('storage/' . $cleanPath);
                                                 };
 
                                                 $selfieDocUrl = $buildDocUrl($user->selfie_ktp_path);
@@ -143,11 +141,6 @@
                                                                 <i class="fas fa-check"></i> Approve
                                                             </button>
                                                         @endif
-                                                        <a href="{{ route('user.edit', $user->id) }}"
-                                                            class="btn btn-sm btn-info btn-icon @if (!$canEditUser) disabled @endif"
-                                                            @if (!$canEditUser) onclick="event.preventDefault(); alert('Anda tidak dapat mengedit user dengan role lebih tinggi');" style="cursor: not-allowed; opacity: 0.6;" @endif>
-                                                            <i class="fas fa-edit"></i> Edit
-                                                        </a>
                                                         @if ($user->deleted_at == null)
                                                             <form action="{{ route('user.destroy', $user->id) }}"
                                                                 method="POST" class="ml-2" id="del-<?= $user->id ?>"
@@ -292,12 +285,12 @@
                         <div class="row">
                             <div class="col-md-6 text-center">
                                 <p><strong>Selfie</strong></p>
-                                <img id="approve-selfie-image" src="" alt="Selfie KTP" class="img-fluid img-thumbnail d-none">
+                                <img id="approve-selfie-image" src="" alt="Foto Selfie" class="img-fluid img-thumbnail d-none">
                                 <p id="approve-selfie-empty" class="text-muted mb-0">No file</p>
                             </div>
                             <div class="col-md-6 text-center">
                                 <p><strong>KTP</strong></p>
-                                <img id="approve-kk-image" src="" alt="Kartu Keluarga" class="img-fluid img-thumbnail d-none">
+                                <img id="approve-kk-image" src="" alt="Foto KTP" class="img-fluid img-thumbnail d-none">
                                 <p id="approve-kk-empty" class="text-muted mb-0">No file</p>
                             </div>
                         </div>
@@ -345,7 +338,7 @@
                     ];
 
                 if (window.console && console.log) {
-                    console.log('Approve button clicked:', { nik: nik, name: name, approveUrl: approveUrl, isKaryawan: isKaryawan });
+                    console.log('Approve button clicked:', { nik: nik, name: name, approveUrl: approveUrl, isKaryawan: isKaryawan, selfie: selfie, kk: kk });
                 }
 
                 $('#approve-form-global').attr('action', approveUrl);
@@ -360,6 +353,7 @@
 
                 $('#approve-role-buttons').removeClass('d-none').html(buttonsHtml);
 
+                // Set selfie image
                 if (selfie) {
                     $('#approve-selfie-image').attr('src', selfie).removeClass('d-none');
                     $('#approve-selfie-empty').addClass('d-none');
@@ -368,6 +362,7 @@
                     $('#approve-selfie-empty').removeClass('d-none');
                 }
 
+                // Set KK image
                 if (kk) {
                     $('#approve-kk-image').attr('src', kk).removeClass('d-none');
                     $('#approve-kk-empty').addClass('d-none');
@@ -402,37 +397,27 @@
                     visibility: 'hidden'
                 });
 
-                // If there's no relatedTarget (e.g. modal opened programmatically),
-                // don't override values populated by the click handler.
+                // If modal is opened via click handler (data-toggle), event.relatedTarget akan berisi button
+                // Jika modal opened programmatically tanpa button, skip population
                 if (!event.relatedTarget) {
                     return;
                 }
 
+                // Jangan re-populate images karena sudah dihandle di click handler
+                // Hanya update data jika diperlukan
                 var button = $(event.relatedTarget);
                 var nik = button.attr('data-nik') || '-';
                 var name = button.attr('data-name') || '-';
-                var selfie = button.attr('data-selfie') || '';
-                var kk = button.attr('data-kk') || '';
-                var approveUrl = button.attr('data-approve-url') || '#';
 
-                $('#approve-form-global').attr('action', approveUrl);
-                $('#approve-nik').text(nik);
-                $('#approve-name').text(name);
-
-                if (selfie) {
-                    $('#approve-selfie-image').attr('src', selfie).removeClass('d-none');
-                    $('#approve-selfie-empty').addClass('d-none');
-                } else {
-                    $('#approve-selfie-image').attr('src', '').addClass('d-none');
-                    $('#approve-selfie-empty').removeClass('d-none');
+                // Update form action dan info user (yang mungkin belum diset)
+                if ($('#approve-form-global').attr('action') === '' || $('#approve-form-global').attr('action') === '#') {
+                    $('#approve-form-global').attr('action', button.attr('data-approve-url') || '#');
                 }
-
-                if (kk) {
-                    $('#approve-kk-image').attr('src', kk).removeClass('d-none');
-                    $('#approve-kk-empty').addClass('d-none');
-                } else {
-                    $('#approve-kk-image').attr('src', '').addClass('d-none');
-                    $('#approve-kk-empty').removeClass('d-none');
+                if ($('#approve-nik').text() === '' || $('#approve-nik').text() === '-') {
+                    $('#approve-nik').text(nik);
+                }
+                if ($('#approve-name').text() === '' || $('#approve-name').text() === '-') {
+                    $('#approve-name').text(name);
                 }
             });
         });
